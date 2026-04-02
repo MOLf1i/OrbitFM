@@ -43,7 +43,6 @@
           buildInputs =
             with pkgs;
             [
-              pkgs.mingw_w64
               openssl
             ]
             ++ (lib.optional stdenv.isDarwin [
