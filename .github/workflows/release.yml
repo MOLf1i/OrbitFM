@@ -8,7 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  # Виправляємо попередження про Node.js
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -22,11 +21,11 @@ jobs:
               - os: ubuntu-latest
                 target: x86_64-unknown-linux-gnu
                 artifact_name: orbit-linux
-                binary_path: target/x86_64-unknown-linux-gnu/release/orbit # ТУТ
+                binary_path: target/x86_64-unknown-linux-gnu/release/orbit
               - os: windows-latest
                 target: x86_64-pc-windows-msvc
                 artifact_name: orbit-windows
-                binary_path: target/x86_64-pc-windows-msvc/release/orbit.exe # І ТУТ
+                binary_path: target/x86_64-pc-windows-msvc/release/orbit.exe
 
     steps:
     - uses: actions/checkout@v4
