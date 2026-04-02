@@ -1,5 +1,5 @@
 {
-  description = "OrbitFM - Rust TUI File Manager Development Environment";
+  description = "OrbitFM - Rust TUI File Manager";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -9,6 +9,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       rust-overlay,
       flake-utils,
@@ -30,8 +31,26 @@
           ];
           targets = [ "x86_64-pc-windows-gnu" ];
         };
+
+        rustPlatform = pkgs.makeRustPlatform {
+          cargoLock.lockFile = ./Cargo.lock;
+          rustc = rustToolchain;
+          cargo = rustToolchain;
+        };
       in
       {
+
+        packages.default = rustPlatform.buildRustPackage {
+          pname = "orbitfm";
+          version = "0.1.0";
+          src = ./.;
+
+          cargoHash = "sha256-THZoxT+2DcggOOOhUwa5rrcMJcfOUAVelakAllZiEiQ=";
+
+          nativeBuildInputs = [ pkgs.pkg-config ];
+          buildInputs = [ pkgs.openssl ];
+        };
+
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             rustToolchain
@@ -51,6 +70,7 @@
 
           shellHook = ''
             echo "OrbitFM Dev Environment Loaded!"
+            echo "Targets: Linux (default), Windows (x86_64-pc-windows-gnu)"
             echo "Rust Version: $(rustc --version)"
           '';
         };
