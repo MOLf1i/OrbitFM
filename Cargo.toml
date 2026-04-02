@@ -1,0 +1,11 @@
+[package]
+name = "OrbitFM"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+crossterm = "0.29.0"
+ratatui = "0.30.0"
+tokio = "1.50.0"
+tui-input = "0.15.0"
+walkdir = "2.5.0"
