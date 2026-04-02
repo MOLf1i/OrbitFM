@@ -4,7 +4,7 @@
 A crossplatform file manager
 
 
-## Installation
+## Linux
 
 Try OrbitFM with nix
 
