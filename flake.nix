@@ -22,13 +22,13 @@
           inherit system overlays;
         };
 
-        # Вибираємо стабільний Rust з компонентами для розробки
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [
             "rust-src"
             "rust-analyzer"
             "clippy"
           ];
+          targets = [ "x86_64-pc-windows-gnu" ];
         };
       in
       {
@@ -36,18 +36,17 @@
           nativeBuildInputs = with pkgs; [
             rustToolchain
             pkg-config
-            cargo-edit # для швидкого додавання залежностей (cargo add)
-            cargo-watch # для авто-перезапуску при зміні коду
+            cargo-edit
+            cargo-watch
           ];
 
           buildInputs =
             with pkgs;
             [
-              # Бібліотеки, необхідні для роботи термінальних інтерфейсів та системних викликів
+              pkgs.mingw_w64
               openssl
             ]
             ++ (lib.optional stdenv.isDarwin [
-              # Додаткові залежності лише для macOS, якщо захочеш розширюватись
               darwin.apple_sdk.frameworks.Security
             ]);
 
