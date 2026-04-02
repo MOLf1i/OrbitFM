@@ -8,20 +8,25 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  # Виправляємо попередження про Node.js
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     name: Build for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            artifact_name: orbitfm-linux
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            artifact_name: orbitfm-windows.exe
+          fail-fast: false
+          matrix:
+            include:
+              - os: ubuntu-latest
+                target: x86_64-unknown-linux-gnu
+                artifact_name: orbit-linux
+                binary_path: target/x86_64-unknown-linux-gnu/release/orbit # ТУТ
+              - os: windows-latest
+                target: x86_64-pc-windows-msvc
+                artifact_name: orbit-windows
+                binary_path: target/x86_64-pc-windows-msvc/release/orbit.exe # І ТУТ
 
     steps:
     - uses: actions/checkout@v4
@@ -38,6 +43,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
-        path: |
-          target/${{ matrix.target }}/release/orbitfm
-          target/${{ matrix.target }}/release/orbitfm.exe
+        # Тепер ми використовуємо точний шлях для кожної ОС окремо
+        path: ${{ matrix.binary_path }}
+        if-no-files-found: error
