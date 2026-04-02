@@ -51,6 +51,11 @@
           buildInputs = [ pkgs.openssl ];
         };
 
+        apps.default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/orbit";
+        };
+
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             rustToolchain
